@@ -1,0 +1,36 @@
+package com.pifsite.application.entities;
+
+import com.pifsite.application.enums.UserRoles;
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "users")
+public class User{
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String userId;
+
+    private String name;
+    private String email;
+    private String password;
+    
+    @Enumerated(EnumType.STRING)
+    private UserRoles role;
+}
