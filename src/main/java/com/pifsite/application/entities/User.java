@@ -27,6 +27,7 @@ import lombok.Setter;
 public class User{
     
     @Id
+    @Column(name="user_id")
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID userId;
 
@@ -36,4 +37,12 @@ public class User{
     
     @Enumerated(EnumType.STRING)
     private UserRoles role;
+
+    @Override
+    public String toString() {
+        return "User [userId=" + userId + ", name=" + name + ", email=" + email + ", password=" + password + ", role="
+                + role + "]";
+    }
+
+    
 }
