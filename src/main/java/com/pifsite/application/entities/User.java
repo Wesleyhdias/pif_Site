@@ -1,11 +1,14 @@
 package com.pifsite.application.entities;
 
+import java.util.UUID;
+
 import com.pifsite.application.enums.UserRoles;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -25,7 +28,7 @@ public class User{
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String userId;
+    private UUID userId;
 
     private String name;
     private String email;

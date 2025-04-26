@@ -1,30 +1,34 @@
 package com.pifsite.application.service;
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-// import com.pifsite.application.dto.LoginDTO;
-
-import com.pifsite.application.entities.User;
 import com.pifsite.application.repository.UserRepository;
+import com.pifsite.application.dto.LoginDTO;
+import com.pifsite.application.entities.User;
+
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
-public class LoginService implements UserDetailsService{
+@RequiredArgsConstructor
+public class LoginService{
 
-    @Autowired
-    UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final TokenService tokenService;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        User user = this.userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
+    public String doLogin(LoginDTO loginDTO){
         
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),  new ArrayList<>());
-        
+        User user = this.userRepository.findByEmail(loginDTO.email()).orElseThrow(() -> new RuntimeException("User Not Found"));
+
+        if(passwordEncoder.matches(loginDTO.password(), user.getPassword())){
+            String token = this.tokenService.generateToken(user);
+
+            return token;
+        }
+
+        throw new RuntimeException("login failed");
     }
+
 }
