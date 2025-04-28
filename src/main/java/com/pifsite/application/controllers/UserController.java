@@ -2,8 +2,13 @@ package com.pifsite.application.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -30,6 +35,20 @@ public class UserController {
         }catch(Exception err){
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not created");
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable UUID id) {
+        
+        try{
+
+            userService.deleteOneUser(id);
+            return ResponseEntity.ok("User successfully deleted.");
+
+        }catch(Exception err) {
+            System.out.println(err);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not deleted");
         }
     }
 }
