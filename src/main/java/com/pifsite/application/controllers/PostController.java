@@ -1,21 +1,23 @@
 package com.pifsite.application.controllers;
 
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
-
-import java.util.UUID;
-
 import org.springframework.http.HttpStatus;
 
 import com.pifsite.application.service.PostService;
+import com.pifsite.application.dto.CreatePostDTO;
 import com.pifsite.application.dto.PostDTO;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/Post")
@@ -24,8 +26,22 @@ public class PostController {
 
     private final PostService postService;
 
+    @GetMapping
+    public ResponseEntity<?> getAllPosts(){
+
+        try{
+
+            List<PostDTO> posts = postService.getAllPosts();
+            return ResponseEntity.ok(posts); // não está muito bom ainda
+
+        }catch(Exception err){
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("deu ruim..");
+        }
+    }
+
     @PostMapping
-    public ResponseEntity<?> createPost(@RequestBody PostDTO postDTO){
+    public ResponseEntity<?> createPost(@RequestBody CreatePostDTO postDTO){
 
         try{
 

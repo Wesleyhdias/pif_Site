@@ -1,8 +1,5 @@
 package com.pifsite.application.entities;
 
-import java.time.OffsetDateTime;
-import java.util.UUID;
-
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.GeneratedValue;
@@ -16,13 +13,16 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.Id;
 import lombok.Getter;
+
+import java.time.OffsetDateTime;
+import java.util.UUID;
 import lombok.Setter;
 
+@Entity
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "posts")
 public class Post {
     

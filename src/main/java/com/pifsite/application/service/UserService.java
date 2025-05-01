@@ -1,18 +1,20 @@
 package com.pifsite.application.service;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.pifsite.application.repository.UserRepository;
-import com.pifsite.application.dto.RegisterUserDTO;
+import com.pifsite.application.dto.CreateUserDTO;
 import com.pifsite.application.enums.UserRoles;
 import com.pifsite.application.entities.User;
+import com.pifsite.application.dto.UserDTO;
 
 import lombok.RequiredArgsConstructor;
-import java.util.Optional;
 
+import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -22,7 +24,18 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public void createUser(RegisterUserDTO registerUserDTO){
+    public List<UserDTO> getAllUsers(){
+
+        List<UserDTO> users = this.userRepository.getAllUsers();
+
+        if(users.isEmpty()){
+            throw new RuntimeException("there is no users in the database"); // melhorar depois
+        }
+
+        return users;
+    }
+
+    public void createUser(CreateUserDTO registerUserDTO){
 
         Optional<User> user = this.userRepository.findByEmail(registerUserDTO.email());
 

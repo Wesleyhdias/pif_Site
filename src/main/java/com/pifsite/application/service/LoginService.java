@@ -1,12 +1,11 @@
 package com.pifsite.application.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.pifsite.application.repository.UserRepository;
-import com.pifsite.application.dto.LoginDTO;
 import com.pifsite.application.entities.User;
-
-import org.springframework.stereotype.Service;
+import com.pifsite.application.dto.LoginDTO;
 
 import lombok.RequiredArgsConstructor;
 

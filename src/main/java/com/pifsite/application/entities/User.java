@@ -1,7 +1,5 @@
 package com.pifsite.application.entities;
 
-import java.util.UUID;
-
 import com.pifsite.application.enums.UserRoles;
 
 import jakarta.persistence.GeneratedValue;
@@ -18,11 +16,13 @@ import lombok.NoArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
+@Entity
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "users")
 public class User{
     

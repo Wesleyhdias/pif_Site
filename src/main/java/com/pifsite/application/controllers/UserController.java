@@ -1,21 +1,23 @@
 package com.pifsite.application.controllers;
 
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.UUID;
-
-import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 import com.pifsite.application.service.UserService;
-import com.pifsite.application.dto.RegisterUserDTO;
+import com.pifsite.application.dto.CreateUserDTO;
+import com.pifsite.application.dto.UserDTO;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.UUID;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -24,8 +26,22 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping
+    public ResponseEntity<?> getAllUsers(){
+
+        try{
+
+            List<UserDTO> users = userService.getAllUsers();
+            return ResponseEntity.ok(users);
+
+        }catch(Exception err){
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("deu ruim..");
+        }
+    }
+
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody RegisterUserDTO registerUserDTO){
+    public ResponseEntity<?> createUser(@RequestBody CreateUserDTO registerUserDTO){
 
         try{
 
