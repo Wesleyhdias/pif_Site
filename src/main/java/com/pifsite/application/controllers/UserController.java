@@ -63,6 +63,7 @@ public class UserController {
             return ResponseEntity.ok("User successfully deleted.");
 
         }catch(Exception err) {
+            
             System.out.println(err);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not deleted");
         }
