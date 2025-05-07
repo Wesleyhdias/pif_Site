@@ -7,15 +7,16 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.Id;
 import lombok.Getter;
-
-import java.util.UUID;
-import java.util.HashSet;
-import java.util.Set;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.UUID;
+import java.util.Set;
 
 @Entity
 @Setter

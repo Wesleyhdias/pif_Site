@@ -1,7 +1,5 @@
 package com.pifsite.application.entities;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.JoinColumn;
@@ -20,27 +18,28 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "posts")
-public class Post {
+@Table(name = "attendances")
+public class Attendance {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID postId;
+    private UUID attendanceId;
 
-    private String title;
-    private String body;
-
-    @CreationTimestamp
-    @Column(name = "created_at")
-    private OffsetDateTime createdAt;
-
-    
     @ManyToOne
-    @JoinColumn(name = "owner")  // FK da tabela User
-    private User owner;
+    @JoinColumn(name = "student_id")
+    private Student studentId;
+
+    @ManyToOne
+    @JoinColumn(name = "classroom_id")
+    private Classroom classId;
+
+    @Column(name = "attendance_date")
+    private OffsetDateTime attendanceDate;
+
+    private boolean presence;
 
 }

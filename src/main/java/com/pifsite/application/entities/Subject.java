@@ -5,14 +5,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.Id;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 import java.util.Set;
-import lombok.Setter;
 
 @Entity
 @Setter
