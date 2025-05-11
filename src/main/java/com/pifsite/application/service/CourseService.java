@@ -45,7 +45,7 @@ public class CourseService {
         if(user.getRole() == UserRoles.ADMIN || user.getRole() == UserRoles.PROFESSOR){
 
             Course newCourse = new Course();
-            newCourse.setCourse_name(courseDTO.course_name());
+            newCourse.setCourseName(courseDTO.courseName());
 
             return this.courseRepository.save(newCourse);
         }
@@ -80,7 +80,7 @@ public class CourseService {
 
     public void createCourseWithSubjects(CourseSubjectsDTO courseSubjectsDTO){
 
-        CourseDTO newCourseDTO = new CourseDTO(courseSubjectsDTO.course_name());
+        CourseDTO newCourseDTO = new CourseDTO(courseSubjectsDTO.courseName());
         UUID courseId = crateCourse(newCourseDTO).getCourseId();
 
         addSubjectToCourse(courseId, courseSubjectsDTO.subjects());

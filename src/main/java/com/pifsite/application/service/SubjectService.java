@@ -35,20 +35,14 @@ public class SubjectService {
 
     public void crateSubject(SubjectDTO subjectDTO){
 
-        System.out.println();
-        System.out.println();
-        System.out.println("entrou aqui pelo menos");
-        System.out.println();
-        System.out.println();
-
         Authentication userData = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)userData.getPrincipal();
         
         if(user.getRole() == UserRoles.ADMIN || user.getRole() == UserRoles.PROFESSOR){
 
             Subject newSubject = new Subject();
-            newSubject.setSubject_name(subjectDTO.subject_name());
-            newSubject.setWorkload_hours(subjectDTO.workload_hours());
+            newSubject.setSubjectName(subjectDTO.subjectName());
+            newSubject.setWorkloadHours(subjectDTO.workloadHours());
 
             this.subjectRepository.save(newSubject);
         }

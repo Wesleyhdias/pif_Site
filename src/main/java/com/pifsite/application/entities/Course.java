@@ -5,6 +5,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -30,7 +31,8 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID courseId;
 
-    private String course_name;
+    @Column(name = "course_name")
+    private String courseName;
 
     @ManyToMany
     @JoinTable(

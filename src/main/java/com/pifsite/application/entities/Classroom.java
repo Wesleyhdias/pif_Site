@@ -35,11 +35,11 @@ public class Classroom {
 
     @ManyToOne
     @JoinColumn(name = "professor_id")
-    private Professor professorId;
+    private Professor professor;
 
     @ManyToOne
     @JoinColumn(name = "subject_id")
-    private Subject subjectId;
+    private Subject subject;
 
     private String semester;
 

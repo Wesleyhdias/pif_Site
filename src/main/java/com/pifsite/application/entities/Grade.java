@@ -1,5 +1,6 @@
 package com.pifsite.application.entities;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.JoinColumn;
@@ -14,6 +15,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Entity
 @Getter
 @Setter
 @RequiredArgsConstructor

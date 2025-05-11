@@ -1,3 +1,3 @@
 package com.pifsite.application.dto;
 
-public record CourseDTO(String course_name) {}
+public record CourseDTO(String courseName) {}

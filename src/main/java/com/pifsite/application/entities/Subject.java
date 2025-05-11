@@ -3,6 +3,7 @@ package com.pifsite.application.entities;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -27,8 +28,11 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID subjectId;
 
-    private String subject_name;
-    private int workload_hours;
+    @Column(name = "subject_name")
+    private String subjectName;
+
+    @Column(name = "workload_hours")
+    private int workloadHours;
 
     @ManyToMany(mappedBy = "subjects")
     private Set<Course> courses;

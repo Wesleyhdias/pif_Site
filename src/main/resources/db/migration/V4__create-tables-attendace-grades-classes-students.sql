@@ -46,11 +46,11 @@ CREATE TABLE classrooms_students (
 
 CREATE TABLE grades (
     grade_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    student_id UUID NOT NULL,
-    class_id UUID NOT NULL,
+    student UUID NOT NULL,
+    classroom UUID NOT NULL,
     activity TEXT,
     grade DECIMAL(5,2),
 
-    CONSTRAINT fk_grade_student FOREIGN KEY (student_id) REFERENCES students(student_id),
-    CONSTRAINT fk_grade_class FOREIGN KEY (class_id) REFERENCES classrooms(classroom_id)
+    CONSTRAINT fk_grade_student FOREIGN KEY (student) REFERENCES students(student_id),
+    CONSTRAINT fk_grade_class FOREIGN KEY (classroom) REFERENCES classrooms(classroom_id)
 );

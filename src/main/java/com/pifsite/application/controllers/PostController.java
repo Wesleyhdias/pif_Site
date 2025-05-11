@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/Post")
+@RequestMapping("/post")
 @RequiredArgsConstructor
 public class PostController {
 

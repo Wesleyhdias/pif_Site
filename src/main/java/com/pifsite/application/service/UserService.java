@@ -43,15 +43,13 @@ public class UserService {
             throw new RuntimeException("User already exists"); // melhorar depois
         }
 
-        if(user.isEmpty()){
-            User newUser = new User();
-            newUser.setEmail(registerUserDTO.email());
-            newUser.setName(registerUserDTO.name());
-            newUser.setRole(UserRoles.fromString(registerUserDTO.role()));
-            newUser.setPassword(passwordEncoder.encode(registerUserDTO.password()));
+        User newUser = new User();
+        newUser.setEmail(registerUserDTO.email());
+        newUser.setName(registerUserDTO.name());
+        newUser.setRole(UserRoles.fromString(registerUserDTO.role()));
+        newUser.setPassword(passwordEncoder.encode(registerUserDTO.password()));
 
-            this.userRepository.save(newUser);
-        }
+        this.userRepository.save(newUser);
     }
 
     public void deleteOneUser(UUID userId){

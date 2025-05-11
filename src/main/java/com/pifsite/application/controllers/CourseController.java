@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/Course")
+@RequestMapping("/course")
 @RequiredArgsConstructor
 public class CourseController {
 
@@ -82,7 +82,7 @@ public class CourseController {
 
         }catch(Exception err) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Course not updated, i dunno way...");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Course not updated, i dunno why...");
         }
     }
 
