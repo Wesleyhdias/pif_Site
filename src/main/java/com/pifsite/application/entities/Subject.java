@@ -14,6 +14,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Set;
 
 @Entity
@@ -34,6 +37,7 @@ public class Subject {
     @Column(name = "workload_hours")
     private int workloadHours;
 
+    @JsonIgnore 
     @ManyToMany(mappedBy = "subjects")
     private Set<Course> courses;
 

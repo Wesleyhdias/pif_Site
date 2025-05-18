@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 // import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
@@ -19,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 
 // import java.util.UUID;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/student")
@@ -61,18 +64,18 @@ public class StudentController {
         }
     }
 
-    // @DeleteMapping("/{id}")
-    // public ResponseEntity<String> deleteStudent(@PathVariable UUID id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteStudent(@PathVariable UUID id) {
         
-    //     try{
+        try{
 
-    //         studentService.deleteOneStudent(id);
-    //         return ResponseEntity.ok("Student successfully deleted.");
+            studentService.deleteOneStudent(id);
+            return ResponseEntity.ok("Student successfully deleted.");
 
-    //     }catch(Exception err) {
+        }catch(Exception err) {
             
-    //         System.out.println(err);
-    //         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Student not deleted");
-    //     }
-    // }
+            System.out.println(err);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Student not deleted");
+        }
+    }
 }
