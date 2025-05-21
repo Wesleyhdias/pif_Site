@@ -5,10 +5,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.pifsite.application.repository.SubjectRepository;
+import com.pifsite.application.dto.CreateSubjectDTO;
 import com.pifsite.application.entities.Subject;
 import com.pifsite.application.enums.UserRoles;
-import com.pifsite.application.entities.User;
 import com.pifsite.application.dto.SubjectDTO;
+import com.pifsite.application.entities.User;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,9 +23,9 @@ public class SubjectService {
 
     private final SubjectRepository subjectRepository;
 
-    public List<Subject> getAllSubjects(){
+    public List<SubjectDTO> getAllSubjects(){ // trocar para retornar um DTO depois
 
-        List<Subject> subjects = this.subjectRepository.findAll();
+        List<SubjectDTO> subjects = this.subjectRepository.getAllSubjects();
 
         if(subjects.isEmpty()){
             throw new RuntimeException("there is no posts in the database"); // melhorar depois
@@ -33,7 +34,7 @@ public class SubjectService {
         return subjects;
     }
 
-    public void crateSubject(SubjectDTO subjectDTO){
+    public void crateSubject(CreateSubjectDTO subjectDTO){
 
         Authentication userData = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)userData.getPrincipal();

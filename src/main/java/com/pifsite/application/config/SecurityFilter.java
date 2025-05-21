@@ -16,8 +16,8 @@ import com.pifsite.application.repository.UserRepository;
 import com.pifsite.application.service.TokenService;
 import com.pifsite.application.entities.User;
 
-import java.io.IOException;
 import java.util.Collections;
+import java.io.IOException;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {

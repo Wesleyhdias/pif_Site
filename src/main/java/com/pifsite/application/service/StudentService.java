@@ -32,7 +32,7 @@ public class StudentService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public List<Student> getAllStudents(){
+    public List<Student> getAllStudents(){ // trocar para retornar um DTO depois
 
         List<Student> students = this.studentRepository.findAll();
 

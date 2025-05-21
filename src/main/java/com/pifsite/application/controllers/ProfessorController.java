@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
-import com.pifsite.application.service.StudentService;
-import com.pifsite.application.dto.CreateStudentDTO;
-// import com.pifsite.application.dto.StudentDTO;
-import com.pifsite.application.entities.Student;
+import com.pifsite.application.service.ProfessorService;
+import com.pifsite.application.entities.Professor;
+import com.pifsite.application.dto.CreateUserDTO;
+// import com.pifsite.application.dto.ProfessorDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,19 +21,19 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/student")
+@RequestMapping("/professor")
 @RequiredArgsConstructor
-public class StudentController {
+public class ProfessorController {
 
-    private final StudentService studentService;
+    private final ProfessorService ProfessorService;
 
     @GetMapping
-    public ResponseEntity<?> getAllStudents(){
+    public ResponseEntity<?> getAllProfessors(){
 
         try{
 
-            List<Student> Students = studentService.getAllStudents();
-            return ResponseEntity.ok(Students);
+            List<Professor> professors = ProfessorService.getAllProfessors();
+            return ResponseEntity.ok(professors);
 
         }catch(Exception err){
 
@@ -42,11 +42,11 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createStudent(@RequestBody CreateStudentDTO registerStudentDTO){
+    public ResponseEntity<?> createProfessor(@RequestBody CreateUserDTO registerProfessorDTO){
 
         try{
 
-            studentService.createStudent(registerStudentDTO);
+            ProfessorService.createProfessor(registerProfessorDTO);
             return ResponseEntity.ok("Usuário criado");
 
         }catch(Exception err){
@@ -57,22 +57,22 @@ public class StudentController {
             System.out.println("Erro do controller");
             System.out.println();
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Student not created");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Professor not created");
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteStudent(@PathVariable UUID id) {
+    public ResponseEntity<String> deleteProfessor(@PathVariable UUID id) {
         
         try{
 
-            studentService.deleteOneStudent(id);
-            return ResponseEntity.ok("Student successfully deleted.");
+            ProfessorService.deleteOneProfessor(id);
+            return ResponseEntity.ok("Professor successfully deleted.");
 
         }catch(Exception err) {
             
             System.out.println(err);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Student not deleted");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Professor not deleted");
         }
     }
 }

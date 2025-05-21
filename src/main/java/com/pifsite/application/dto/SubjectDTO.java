@@ -1,3 +1,5 @@
 package com.pifsite.application.dto;
 
-public record SubjectDTO(String subjectName, int workloadHours) {}
+import java.util.UUID;
+
+public record SubjectDTO(UUID subjectId, String subjectName, int workloadHours) {}

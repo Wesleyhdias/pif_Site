@@ -1,8 +1,8 @@
 package com.pifsite.application.dto;
 
-import java.util.UUID;
-
 import com.pifsite.application.entities.Course;
+
+import java.util.UUID;
 
 public record StudentDTO(UUID studentId, Course course) {
     

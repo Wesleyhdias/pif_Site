@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
-import com.pifsite.application.service.SubjectService;
-import com.pifsite.application.dto.CreateSubjectDTO;
-import com.pifsite.application.dto.SubjectDTO;
+import com.pifsite.application.service.ClassroomService;
+import com.pifsite.application.dto.CreateClassroomDTO;
+import com.pifsite.application.entities.Classroom;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,19 +20,19 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/subject")
+@RequestMapping("/classroom")
 @RequiredArgsConstructor
-public class SubjectController {
+public class ClassroomController {
 
-    private final SubjectService subjectService;
+    private final ClassroomService classroomService;
 
     @GetMapping
-    public ResponseEntity<?> getAllSubjects(){
+    public ResponseEntity<?> getAllClassrooms(){
 
         try{
 
-            List<SubjectDTO> subject = subjectService.getAllSubjects();
-            return ResponseEntity.ok(subject); // não está muito bom ainda
+            List<Classroom> Classrooms = classroomService.getAllClassrooms();
+            return ResponseEntity.ok(Classrooms); // não está muito bom ainda
 
         }catch(Exception err){
 
@@ -41,16 +41,16 @@ public class SubjectController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createSubject(@RequestBody CreateSubjectDTO subjectDTO){
+    public ResponseEntity<?> createClassroom(@RequestBody CreateClassroomDTO ClassroomDTO){
 
         try{
 
-            subjectService.crateSubject(subjectDTO);
-            return ResponseEntity.ok("Course created");
+            classroomService.createClassroom(ClassroomDTO);
+            return ResponseEntity.ok("Classroom created");
          
         }catch(Exception err){
          
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Course creation failed, you (Probably) don't have access to Course creation feature");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Classroom creation failed, you (Probably) don't have access to Classroom creation feature");
         }
     }
 
@@ -59,12 +59,12 @@ public class SubjectController {
         
         try{
 
-            subjectService.deleteOneSubject(id);
-            return ResponseEntity.ok("Course successfully deleted.");
+            classroomService.deleteOneClassroom(id);
+            return ResponseEntity.ok("Classroom successfully deleted.");
 
         }catch(Exception err) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Course not deleted");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Classroom not deleted");
         }
     }
 }

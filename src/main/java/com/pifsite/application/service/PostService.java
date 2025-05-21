@@ -34,7 +34,7 @@ public class PostService {
         return posts;
     }
 
-    public void cratePost(CreatePostDTO postDTO){
+    public void createPost(CreatePostDTO postDTO){
 
         Authentication userData = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)userData.getPrincipal();

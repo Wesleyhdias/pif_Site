@@ -2,8 +2,8 @@ package com.pifsite.application.service;
 
 import com.pifsite.application.repository.ProfessorRepository;
 import com.pifsite.application.repository.UserRepository;
-import com.pifsite.application.dto.CreateUserDTO;
 import com.pifsite.application.entities.Professor;
+import com.pifsite.application.dto.CreateUserDTO;
 import com.pifsite.application.enums.UserRoles;
 import com.pifsite.application.entities.User;
 
@@ -28,7 +28,7 @@ public class ProfessorService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public List<Professor> getAllProfessors(){
+    public List<Professor> getAllProfessors(){ // trocar para retornar um DTO depois
 
         List<Professor> Professors = this.professorRepository.findAll();
 

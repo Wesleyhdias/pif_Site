@@ -1,16 +1,16 @@
 package com.pifsite.application.entities;
 
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Entity;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.UUID;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
 
 @Entity
 @Getter

@@ -11,6 +11,6 @@ import java.util.UUID;
 
 public interface PostRepository extends JpaRepository<Post, UUID> {
 
-    @Query("SELECT new com.pifsite.application.dto.PostDTO(u.postId, u.title, u.body, u.createdAt, u.owner) FROM Post u")
+    @Query("SELECT new com.pifsite.application.dto.PostDTO(p.postId, p.title, p.body, p.createdAt, p.owner) FROM Post p")
     List<PostDTO> getAllPosts();
 }

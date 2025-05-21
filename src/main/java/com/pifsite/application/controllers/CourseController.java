@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
-import com.pifsite.application.dto.CourseSubjectsDTO;
 import com.pifsite.application.service.CourseService;
-import com.pifsite.application.entities.Course;
+import com.pifsite.application.dto.CourseSubjectsDTO;
+import com.pifsite.application.dto.CreateCourseDTO;
 import com.pifsite.application.dto.CourseDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class CourseController {
 
         try{
 
-            List<Course> course = courseService.getAllCourses();
+            List<CourseDTO> course = courseService.getAllCourses();
             return ResponseEntity.ok(course); // não está muito bom ainda
 
         }catch(Exception err){
@@ -43,7 +43,7 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createCourse(@RequestBody CourseDTO courseDTO){
+    public ResponseEntity<?> createCourse(@RequestBody CreateCourseDTO courseDTO){
 
         try{
 

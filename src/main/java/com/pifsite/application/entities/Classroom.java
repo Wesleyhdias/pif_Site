@@ -34,11 +34,11 @@ public class Classroom {
     private UUID classroomId;
 
     @ManyToOne
-    @JoinColumn(name = "professor_id")
+    @JoinColumn(name = "professor")
     private Professor professor;
 
     @ManyToOne
-    @JoinColumn(name = "subject_id")
+    @JoinColumn(name = "subject")
     private Subject subject;
 
     private String semester;

@@ -1,5 +1,7 @@
 package com.pifsite.application.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.ManyToMany;
@@ -14,9 +16,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.UUID;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.Set;
 
 @Entity

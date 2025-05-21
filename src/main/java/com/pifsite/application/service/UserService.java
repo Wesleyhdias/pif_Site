@@ -60,14 +60,12 @@ public class UserService {
             throw new RuntimeException("User don't exists"); // melhorar depois
         }
 
-        User user = oPuser.orElse(null);
+        User user = oPuser.get();
 
         Authentication userData = SecurityContextHolder.getContext().getAuthentication();
         User reqUser = (User)userData.getPrincipal();
 
         if(reqUser.getRole() != UserRoles.ADMIN || user.equals(reqUser)){
-            System.out.println(user.getRole() + " " + UserRoles.ADMIN);
-            System.out.println(user.equals(reqUser));
             throw new RuntimeException("you can't delete this user");
         }
 

@@ -7,11 +7,12 @@ import org.springframework.stereotype.Service;
 import com.pifsite.application.repository.SubjectRepository;
 import com.pifsite.application.repository.CourseRepository;
 import com.pifsite.application.dto.CourseSubjectsDTO;
+import com.pifsite.application.dto.CreateCourseDTO;
 import com.pifsite.application.entities.Subject;
 import com.pifsite.application.enums.UserRoles;
 import com.pifsite.application.entities.Course;
-import com.pifsite.application.entities.User;
 import com.pifsite.application.dto.CourseDTO;
+import com.pifsite.application.entities.User;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,9 +27,9 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final SubjectRepository subjectRepository;
 
-    public List<Course> getAllCourses(){
+    public List<CourseDTO> getAllCourses(){ // trocar para retornar um DTO depois
 
-        List<Course> courses = this.courseRepository.findAll();
+        List<CourseDTO> courses = this.courseRepository.getAllCourses();
 
         if(courses.isEmpty()){
             throw new RuntimeException("there is no posts in the database"); // melhorar depois
@@ -37,7 +38,7 @@ public class CourseService {
         return courses;
     }
 
-    public Course crateCourse(CourseDTO courseDTO){
+    public Course crateCourse(CreateCourseDTO courseDTO){
 
         Authentication userData = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)userData.getPrincipal();
@@ -80,7 +81,7 @@ public class CourseService {
 
     public void createCourseWithSubjects(CourseSubjectsDTO courseSubjectsDTO){
 
-        CourseDTO newCourseDTO = new CourseDTO(courseSubjectsDTO.courseName());
+        CreateCourseDTO newCourseDTO = new CreateCourseDTO(courseSubjectsDTO.courseName());
         UUID courseId = crateCourse(newCourseDTO).getCourseId();
 
         addSubjectToCourse(courseId, courseSubjectsDTO.subjects());
