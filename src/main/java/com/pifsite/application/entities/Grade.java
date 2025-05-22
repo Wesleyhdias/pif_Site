@@ -27,11 +27,11 @@ public class Grade {
     private UUID gradeId;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student")
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "classroom_id")
+    @JoinColumn(name = "classroom")
     private Classroom classroom;
 
     private String activity;
