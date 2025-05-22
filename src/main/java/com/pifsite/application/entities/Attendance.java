@@ -30,11 +30,11 @@ public class Attendance {
     private UUID attendanceId;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student")
     private Student studentId;
 
     @ManyToOne
-    @JoinColumn(name = "classroom_id")
+    @JoinColumn(name = "classroom")
     private Classroom classroomId;
 
     @Column(name = "attendance_date")
