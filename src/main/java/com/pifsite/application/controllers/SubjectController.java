@@ -32,7 +32,7 @@ public class SubjectController {
         try{
 
             List<SubjectDTO> subject = subjectService.getAllSubjects();
-            return ResponseEntity.ok(subject); // não está muito bom ainda
+            return ResponseEntity.ok(subject); // não está muito bom ainda tem que arrumar dps
 
         }catch(Exception err){
 

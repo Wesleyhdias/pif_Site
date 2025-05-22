@@ -33,7 +33,7 @@ public class StudentController {
         try{
 
             List<Student> Students = studentService.getAllStudents();
-            return ResponseEntity.ok(Students);
+            return ResponseEntity.ok(Students); // não está muito bom ainda tem que arrumar dps
 
         }catch(Exception err){
 

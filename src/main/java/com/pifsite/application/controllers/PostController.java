@@ -32,7 +32,7 @@ public class PostController {
         try{
 
             List<PostDTO> posts = postService.getAllPosts();
-            return ResponseEntity.ok(posts); // não está muito bom ainda
+            return ResponseEntity.ok(posts);
 
         }catch(Exception err){
 

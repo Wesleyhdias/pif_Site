@@ -34,7 +34,7 @@ public class CourseController {
         try{
 
             List<CourseDTO> course = courseService.getAllCourses();
-            return ResponseEntity.ok(course); // não está muito bom ainda
+            return ResponseEntity.ok(course);
 
         }catch(Exception err){
 

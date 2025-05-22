@@ -32,7 +32,7 @@ public class ClassroomController {
         try{
 
             List<Classroom> Classrooms = classroomService.getAllClassrooms();
-            return ResponseEntity.ok(Classrooms); // não está muito bom ainda
+            return ResponseEntity.ok(Classrooms); // não está muito bom ainda tem que arrumar dps
 
         }catch(Exception err){
 
