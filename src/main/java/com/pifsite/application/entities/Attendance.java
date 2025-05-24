@@ -31,11 +31,11 @@ public class Attendance {
 
     @ManyToOne
     @JoinColumn(name = "student")
-    private Student studentId;
+    private Student student;
 
     @ManyToOne
     @JoinColumn(name = "classroom")
-    private Classroom classroomId;
+    private Classroom classroom;
 
     @Column(name = "attendance_date")
     private OffsetDateTime attendanceDate;
