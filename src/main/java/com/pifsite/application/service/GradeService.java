@@ -4,15 +4,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import com.pifsite.application.exceptions.UnauthorizedActionException;
+import com.pifsite.application.exceptions.ResourceNotFoundException;
 import com.pifsite.application.repository.ClassroomRepository;
-import com.pifsite.application.repository.GradeRepository;
 import com.pifsite.application.repository.StudentRepository;
-import com.pifsite.application.enums.UserRoles;
-import com.pifsite.application.entities.Grade;
+import com.pifsite.application.repository.GradeRepository;
+import com.pifsite.application.dto.CreateGradeDTO;
 import com.pifsite.application.entities.Classroom;
 import com.pifsite.application.entities.Student;
+import com.pifsite.application.enums.UserRoles;
+import com.pifsite.application.entities.Grade;
 import com.pifsite.application.entities.User;
-import com.pifsite.application.dto.CreateGradeDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +35,7 @@ public class GradeService {
         List<Grade> grades = this.gradeRepository.findAll();
 
         if(grades.isEmpty()){
-            throw new RuntimeException("there is no Grades in the database"); // melhorar depois
+            throw new ResourceNotFoundException("No Grades found"); // melhorar depois
         }
 
         return grades;
@@ -44,20 +46,22 @@ public class GradeService {
         Authentication userData = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)userData.getPrincipal();
         
-        if(user.getRole() == UserRoles.ADMIN || user.getRole() == UserRoles.PROFESSOR){
-
-            Student newStudent = this.studentRepository.findById(gradeDTO.studentId()).get();
-            Classroom newClassroom = this.classroomRepository.findById(gradeDTO.classroomId()).get();
-
-            Grade newGrade = new Grade();
-
-            newGrade.setActivity(gradeDTO.activity());
-            newGrade.setGrade(gradeDTO.grade());
-            newGrade.setStudent(newStudent);
-            newGrade.setClassroom(newClassroom);
-
-            this.gradeRepository.save(newGrade);
+        if(user.getRole() != UserRoles.ADMIN || user.getRole() != UserRoles.PROFESSOR){
+            throw new UnauthorizedActionException("You can't create grades");
         }
+
+        Student newStudent = this.studentRepository.findById(gradeDTO.studentId()).orElseThrow(() -> new ResourceNotFoundException("User with ID " + gradeDTO.studentId() + " not found"));
+
+        Classroom newClassroom = this.classroomRepository.findById(gradeDTO.classroomId()).orElseThrow(() -> new ResourceNotFoundException("Classroom with ID " + gradeDTO.classroomId() + " not found"));
+
+        Grade newGrade = new Grade();
+
+        newGrade.setActivity(gradeDTO.activity());
+        newGrade.setGrade(gradeDTO.grade());
+        newGrade.setStudent(newStudent);
+        newGrade.setClassroom(newClassroom);
+
+        this.gradeRepository.save(newGrade);
     }
 
     public void deleteOneGrade(UUID gradeId){

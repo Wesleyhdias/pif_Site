@@ -1,5 +1,6 @@
 package com.pifsite.application.service;
 
+import com.pifsite.application.exceptions.ResourceNotFoundException;
 import com.pifsite.application.repository.ProfessorRepository;
 import com.pifsite.application.repository.UserRepository;
 import com.pifsite.application.entities.Professor;
@@ -16,7 +17,6 @@ import jakarta.transaction.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.Optional;
 import java.util.UUID;
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class ProfessorService {
         List<Professor> Professors = this.professorRepository.findAll();
 
         if(Professors.isEmpty()){
-            throw new RuntimeException("there is no Professors in the database"); // melhorar depois
+            throw new ResourceNotFoundException("there is no Professors in the database"); // melhorar depois
         }
 
         return Professors;
@@ -41,7 +41,6 @@ public class ProfessorService {
 
     @Transactional
     public void createProfessor(CreateUserDTO registerProfessorDTO){
-
 
         User user = new User( null,
             registerProfessorDTO.name(),
@@ -59,20 +58,14 @@ public class ProfessorService {
 
     public void deleteOneProfessor(UUID professorId){
 
-        Optional<Professor> opProfessor = this.professorRepository.findById(professorId);
-
-        if(!opProfessor.isPresent()){
-            throw new RuntimeException("Professor don't exists"); // melhorar depois
-        }
-
-        User ProfessorUser = this.userRepository.findById(professorId).get();
-
         Authentication userData = SecurityContextHolder.getContext().getAuthentication();
         User reqUser = (User)userData.getPrincipal();
 
-        if(reqUser.getRole() != UserRoles.ADMIN || ProfessorUser.equals(reqUser)){
+        if(reqUser.getRole() != UserRoles.ADMIN){
             throw new RuntimeException("you can't delete this user");
         }
+
+        this.professorRepository.findById(professorId).orElseThrow(() -> new ResourceNotFoundException("Professor with ID " + professorId + " not found"));;
 
         this.professorRepository.deleteById(professorId);
         this.userRepository.deleteById(professorId);

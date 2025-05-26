@@ -4,6 +4,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import com.pifsite.application.exceptions.UnauthorizedActionException;
+import com.pifsite.application.exceptions.ResourceNotFoundException;
 import com.pifsite.application.repository.AttendanceRepository;
 import com.pifsite.application.repository.ClassroomRepository;
 import com.pifsite.application.repository.StudentRepository;
@@ -16,7 +18,6 @@ import com.pifsite.application.entities.User;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.Optional;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,16 +25,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AttendanceService {
 
+    private final AttendanceRepository AttendanceRepository;
     private final ClassroomRepository classroomRepository;
     private final StudentRepository studentRepository;
-    private final AttendanceRepository AttendanceRepository;
 
     public List<Attendance> getAllAttendances(){
 
         List<Attendance> Attendances = this.AttendanceRepository.findAll();
 
         if(Attendances.isEmpty()){
-            throw new RuntimeException("there is no Attendances in the database"); // melhorar depois
+            throw new ResourceNotFoundException("there is no Attendances in the database"); // melhorar depois
         }
 
         return Attendances;
@@ -44,32 +45,37 @@ public class AttendanceService {
         Authentication userData = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)userData.getPrincipal();
         
-        if(user.getRole() == UserRoles.ADMIN || user.getRole() == UserRoles.PROFESSOR){
+        if(user.getRole() != UserRoles.ADMIN || user.getRole() != UserRoles.PROFESSOR){
 
-            Student newStudent = this.studentRepository.findById(AttendanceDTO.studentId()).get();
-            Classroom newClassroom = this.classroomRepository.findById(AttendanceDTO.classroomId()).get();
-
-            Attendance newAttendance = new Attendance();
-
-            newAttendance.setAttendanceDate(AttendanceDTO.attendanceDate());
-            newAttendance.setPresence(AttendanceDTO.presence());
-            newAttendance.setStudent(newStudent);
-            newAttendance.setClassroom(newClassroom);
-
-            this.AttendanceRepository.save(newAttendance);
+            throw new UnauthorizedActionException("You can't create curses");
         }
+
+        Student newStudent = this.studentRepository.findById(AttendanceDTO.studentId())
+        .orElseThrow(() -> new ResourceNotFoundException("Student with ID " + AttendanceDTO.studentId() + " not found"));
+
+        Classroom newClassroom = this.classroomRepository.findById(AttendanceDTO.classroomId())
+        .orElseThrow(() -> new ResourceNotFoundException("Classroom with ID " + AttendanceDTO.classroomId() + " not found"));
+
+        Attendance newAttendance = new Attendance();
+
+        newAttendance.setAttendanceDate(AttendanceDTO.attendanceDate());
+        newAttendance.setPresence(AttendanceDTO.presence());
+        newAttendance.setStudent(newStudent);
+        newAttendance.setClassroom(newClassroom);
+
+        this.AttendanceRepository.save(newAttendance);
     }
 
     public void deleteOneAttendance(UUID AttendanceId){
-        Optional<Attendance> oPAttendance = this.AttendanceRepository.findById(AttendanceId);
         
-        if(!oPAttendance.isPresent()){
-            throw new RuntimeException("Attendance don't exists"); // melhorar depois
-        }
+        this.AttendanceRepository.findById(AttendanceId).orElseThrow(() -> new ResourceNotFoundException("Attendance with ID " + AttendanceId + " not found"));;
 
+        Authentication userData = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User)userData.getPrincipal();
         
-        // Authentication userData = SecurityContextHolder.getContext().getAuthentication();
-        // User user = (User)userData.getPrincipal();
+        if(user.getRole() != UserRoles.ADMIN || user.getRole() != UserRoles.PROFESSOR){
+            throw new UnauthorizedActionException("You can't create curses");
+        }
 
         this.AttendanceRepository.deleteById(AttendanceId);
     }

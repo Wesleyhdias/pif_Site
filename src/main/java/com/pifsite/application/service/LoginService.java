@@ -3,6 +3,8 @@ package com.pifsite.application.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.pifsite.application.exceptions.InvalidCredentialsException;
+import com.pifsite.application.exceptions.ResourceNotFoundException;
 import com.pifsite.application.repository.UserRepository;
 import com.pifsite.application.entities.User;
 import com.pifsite.application.dto.LoginDTO;
@@ -19,15 +21,16 @@ public class LoginService{
 
     public String doLogin(LoginDTO loginDTO){
         
-        User user = this.userRepository.findByEmail(loginDTO.email()).orElseThrow(() -> new RuntimeException("User Not Found"));
+        User user = this.userRepository.findByEmail(loginDTO.email()).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
-        if(passwordEncoder.matches(loginDTO.password(), user.getPassword())){
-            String token = this.tokenService.generateToken(user);
+        if(!passwordEncoder.matches(loginDTO.password(), user.getPassword())){
 
-            return token;
+            throw new InvalidCredentialsException("login failed");
         }
+        
+        String token = this.tokenService.generateToken(user);
 
-        throw new RuntimeException("login failed");
+        return token;
     }
 
 }
