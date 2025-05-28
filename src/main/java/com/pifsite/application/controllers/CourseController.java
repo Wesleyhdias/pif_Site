@@ -31,59 +31,33 @@ public class CourseController {
     @GetMapping
     public ResponseEntity<?> getAllCourses(){
 
-        try{
+        List<CourseDTO> course = courseService.getAllCourses();
+        return ResponseEntity.ok(course);
 
-            List<CourseDTO> course = courseService.getAllCourses();
-            return ResponseEntity.ok(course);
-
-        }catch(Exception err){
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("deu ruim..");
-        }
     }
 
     @PostMapping
     public ResponseEntity<?> createCourse(@RequestBody CreateCourseDTO courseDTO){
 
-        try{
-
-            courseService.crateCourse(courseDTO);
-            return ResponseEntity.ok("Course created");
+        courseService.crateCourse(courseDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Course created");
          
-        }catch(Exception err){
-         
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Course creation failed, you (Probably) don't have access to Course creation feature");
-        }
     }
 
     @PostMapping("/withSubjects")
     public ResponseEntity<?> createCourseWithSubjects(@RequestBody CourseSubjectsDTO courseSubjectsDTO){
 
-        try{
-
-            courseService.createCourseWithSubjects(courseSubjectsDTO);
-            return ResponseEntity.ok("Course created");
+        courseService.createCourseWithSubjects(courseSubjectsDTO);
+        return ResponseEntity.ok("Course created");
          
-        }catch(Exception err){
-            
-            System.out.println(err);
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Course creation failed, you (Probably) don't have access to Course creation feature");
-        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<String> addSubjects(@PathVariable UUID id, @RequestBody List<UUID> subjectIds) {
         
-        try{
+        courseService.addSubjectToCourse(id, subjectIds);
+        return ResponseEntity.ok("Course successfully updated.");
 
-            courseService.addSubjectToCourse(id, subjectIds);
-            return ResponseEntity.ok("Course successfully updated.");
-
-        }catch(Exception err) {
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Course not updated, i dunno why...");
-        }
     }
 
     @DeleteMapping("/{id}")

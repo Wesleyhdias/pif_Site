@@ -29,43 +29,22 @@ public class UserController {
     @GetMapping
     public ResponseEntity<?> getAllUsers(){
 
-        try{
-
-            List<UserDTO> users = userService.getAllUsers();
-            return ResponseEntity.ok(users);
-
-        }catch(Exception err){
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("deu ruim..");
-        }
+        List<UserDTO> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody CreateUserDTO registerUserDTO){
 
-        try{
+        userService.createUser(registerUserDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Usuário criado");
 
-            userService.createUser(registerUserDTO);
-            return ResponseEntity.ok("Usuário criado");
-
-        }catch(Exception err){
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not created");
-        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable UUID id) {
-        
-        try{
 
-            userService.deleteOneUser(id);
-            return ResponseEntity.ok("User successfully deleted.");
-
-        }catch(Exception err) {
-            
-            System.out.println(err);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not deleted");
-        }
+        userService.deleteOneUser(id);
+        return ResponseEntity.ok("User successfully deleted.");
     }
 }

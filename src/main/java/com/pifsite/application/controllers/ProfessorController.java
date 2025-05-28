@@ -30,49 +30,23 @@ public class ProfessorController {
     @GetMapping
     public ResponseEntity<?> getAllProfessors(){
 
-        try{
-
-            List<Professor> professors = ProfessorService.getAllProfessors();
-            return ResponseEntity.ok(professors); // não está muito bom ainda tem que arrumar dps
-
-        }catch(Exception err){
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("deu ruim..");
-        }
+        List<Professor> professors = ProfessorService.getAllProfessors();
+        return ResponseEntity.ok(professors); // não está muito bom ainda tem que arrumar dps
     }
 
     @PostMapping
     public ResponseEntity<?> createProfessor(@RequestBody CreateUserDTO registerProfessorDTO){
 
-        try{
+        ProfessorService.createProfessor(registerProfessorDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Usuário criado");
 
-            ProfessorService.createProfessor(registerProfessorDTO);
-            return ResponseEntity.ok("Usuário criado");
-
-        }catch(Exception err){
-
-            System.out.println();
-            System.out.println("Erro do controller");
-            System.out.println(err);
-            System.out.println("Erro do controller");
-            System.out.println();
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Professor not created");
-        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProfessor(@PathVariable UUID id) {
-        
-        try{
 
-            ProfessorService.deleteOneProfessor(id);
-            return ResponseEntity.ok("Professor successfully deleted.");
+        ProfessorService.deleteOneProfessor(id);
+        return ResponseEntity.ok("Professor successfully deleted.");
 
-        }catch(Exception err) {
-            
-            System.out.println(err);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Professor not deleted");
-        }
     }
 }

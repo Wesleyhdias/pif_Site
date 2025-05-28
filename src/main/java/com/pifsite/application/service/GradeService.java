@@ -18,7 +18,6 @@ import com.pifsite.application.entities.User;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.Optional;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,16 +64,14 @@ public class GradeService {
     }
 
     public void deleteOneGrade(UUID gradeId){
-        Optional<Grade> oPGrade = this.gradeRepository.findById(gradeId);
+        this.gradeRepository.findById(gradeId).orElseThrow(() -> new ResourceNotFoundException("Grade not found"));
         
-        if(!oPGrade.isPresent()){
-            throw new RuntimeException("Grade don't exists"); // melhorar depois
+        try{
+            this.gradeRepository.deleteById(gradeId);
+
+        }catch(Exception err){
+
+            System.out.println(err.getClass());
         }
-
-        
-        // Authentication userData = SecurityContextHolder.getContext().getAuthentication();
-        // User user = (User)userData.getPrincipal();
-
-        this.gradeRepository.deleteById(gradeId);
     }
 }

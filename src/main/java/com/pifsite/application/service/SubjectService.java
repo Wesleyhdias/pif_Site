@@ -1,10 +1,12 @@
 package com.pifsite.application.service;
 
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.pifsite.application.exceptions.UnauthorizedActionException;
+import com.pifsite.application.exceptions.EntityInUseException;
 import com.pifsite.application.exceptions.ResourceNotFoundException;
 import com.pifsite.application.repository.SubjectRepository;
 import com.pifsite.application.dto.CreateSubjectDTO;
@@ -55,6 +57,16 @@ public class SubjectService {
 
         this.subjectRepository.findById(subjectId).orElseThrow(() -> new ResourceNotFoundException("Subject with ID " + subjectId + " not found"));
 
-        this.subjectRepository.deleteById(subjectId);
+        try{
+            this.subjectRepository.deleteById(subjectId);
+            
+        }catch(DataIntegrityViolationException err){
+
+            throw new EntityInUseException("This subjects has other entities linked to it in the application, like students, professors or classrooms");
+
+        }catch(Exception err){
+
+            System.out.println("This error was not treated yet: " + err.getClass());
+        }
     }
 }

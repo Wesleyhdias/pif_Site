@@ -1,5 +1,6 @@
 package com.pifsite.application.service;
 
+import com.pifsite.application.exceptions.EntityInUseException;
 import com.pifsite.application.exceptions.ResourceNotFoundException;
 import com.pifsite.application.repository.ProfessorRepository;
 import com.pifsite.application.repository.UserRepository;
@@ -10,6 +11,7 @@ import com.pifsite.application.entities.User;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -67,7 +69,19 @@ public class ProfessorService {
 
         this.professorRepository.findById(professorId).orElseThrow(() -> new ResourceNotFoundException("Professor with ID " + professorId + " not found"));;
 
-        this.professorRepository.deleteById(professorId);
+        try{
+            this.professorRepository.deleteById(professorId);
+
+        }catch(DataIntegrityViolationException err){
+
+            throw new EntityInUseException("This professor is still linked to other entities in the application, like classrooms, subjects, attendances or grades");
+
+        }catch(Exception err){
+
+            System.out.println("This error was not treated yet: " + err.getClass());
+        }
+
+
         this.userRepository.deleteById(professorId);
     }
 }

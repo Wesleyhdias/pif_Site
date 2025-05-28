@@ -1,10 +1,12 @@
 package com.pifsite.application.service;
 
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.pifsite.application.exceptions.UnauthorizedActionException;
+import com.pifsite.application.exceptions.EntityInUseException;
 import com.pifsite.application.exceptions.ResourceNotFoundException;
 import com.pifsite.application.repository.AttendanceRepository;
 import com.pifsite.application.repository.ClassroomRepository;
@@ -47,7 +49,7 @@ public class AttendanceService {
         
         if(user.getRole() != UserRoles.ADMIN || user.getRole() != UserRoles.PROFESSOR){
 
-            throw new UnauthorizedActionException("You can't create curses");
+            throw new UnauthorizedActionException("You can't create courses");
         }
 
         Student newStudent = this.studentRepository.findById(AttendanceDTO.studentId())
@@ -74,9 +76,20 @@ public class AttendanceService {
         User user = (User)userData.getPrincipal();
         
         if(user.getRole() != UserRoles.ADMIN || user.getRole() != UserRoles.PROFESSOR){
-            throw new UnauthorizedActionException("You can't create curses");
+            throw new UnauthorizedActionException("You can't create courses");
         }
 
-        this.AttendanceRepository.deleteById(AttendanceId);
+        try{
+            this.AttendanceRepository.deleteById(AttendanceId);
+
+        }catch(DataIntegrityViolationException err){
+
+            throw new EntityInUseException("what?");
+
+        }catch(Exception err){
+
+            System.out.println("This error was not treated yet: " + err.getClass());
+        }
+
     }
 }

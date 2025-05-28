@@ -2,15 +2,17 @@ package com.pifsite.application.service;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import com.pifsite.application.exceptions.UnauthorizedActionException;
+import com.pifsite.application.exceptions.ResourceNotFoundException;
+import com.pifsite.application.exceptions.EntityInUseException;
+import com.pifsite.application.exceptions.ConflictException;
 import com.pifsite.application.repository.UserRepository;
 import com.pifsite.application.dto.CreateUserDTO;
 import com.pifsite.application.enums.UserRoles;
-import com.pifsite.application.exceptions.ConflictException;
-import com.pifsite.application.exceptions.ResourceNotFoundException;
-import com.pifsite.application.exceptions.UnauthorizedActionException;
 import com.pifsite.application.entities.User;
 import com.pifsite.application.dto.UserDTO;
 
@@ -70,6 +72,16 @@ public class UserService {
             throw new ConflictException("you can't delete this user while loged with it");
         }
 
-        this.userRepository.deleteById(userId);
+        try{
+            this.userRepository.deleteById(userId);
+
+        }catch(DataIntegrityViolationException err){
+
+            throw new EntityInUseException("This user is still linked to other entities in the application, like student or professor");
+
+        }catch(Exception err){
+
+            System.out.println(err.getClass());
+        }
     }
 }

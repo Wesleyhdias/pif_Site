@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.pifsite.application.service.GradeService;
 import com.pifsite.application.dto.CreateGradeDTO;
@@ -29,43 +29,24 @@ public class GradeController {
     @GetMapping
     public ResponseEntity<?> getAllGrades(){
 
-        try{
+        List<Grade> grades = gradeService.getAllGrades();
+        return ResponseEntity.ok(grades); // não está muito bom ainda tem que arrumar dps
 
-            List<Grade> grades = gradeService.getAllGrades();
-            return ResponseEntity.ok(grades); // não está muito bom ainda tem que arrumar dps
-
-        }catch(Exception err){
-
-            System.out.println(err);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("deu ruim..");
-        }
     }
 
     @PostMapping
     public ResponseEntity<?> createGrade(@RequestBody CreateGradeDTO gradeDTO){
 
-        try{
-
-            gradeService.crateGrade(gradeDTO);
-            return ResponseEntity.ok("Grade created");
+        gradeService.crateGrade(gradeDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Grade created");
          
-        }catch(Exception err){
-         
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Grade creation failed, you (Probably) don't have access to Grade creation feature");
-        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteGrade(@PathVariable UUID id) {
-        
-        try{
 
-            gradeService.deleteOneGrade(id);
-            return ResponseEntity.ok("Grade successfully deleted.");
+        gradeService.deleteOneGrade(id);
+        return ResponseEntity.ok("Grade successfully deleted.");
 
-        }catch(Exception err) {
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Grade not deleted");
-        }
     }
 }

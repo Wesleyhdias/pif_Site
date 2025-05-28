@@ -1,10 +1,12 @@
 package com.pifsite.application.service;
 
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.pifsite.application.exceptions.UnauthorizedActionException;
+import com.pifsite.application.exceptions.EntityInUseException;
 import com.pifsite.application.exceptions.ResourceNotFoundException;
 import com.pifsite.application.repository.ClassroomRepository;
 import com.pifsite.application.repository.ProfessorRepository;
@@ -78,6 +80,17 @@ public class ClassroomService {
             throw new UnauthorizedActionException("you can't delete this classroom");
         }
 
-        this.classroomRepository.deleteById(ClassroomId);
+        try{
+            this.classroomRepository.deleteById(ClassroomId);
+
+        }catch(DataIntegrityViolationException err){
+
+            throw new EntityInUseException("what?");
+
+        }catch(Exception err){
+
+            System.out.println("This error was not treated yet: " + err.getClass());
+        }
+
     }
 }

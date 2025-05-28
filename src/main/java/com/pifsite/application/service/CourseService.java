@@ -1,10 +1,12 @@
 package com.pifsite.application.service;
 
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.pifsite.application.exceptions.UnauthorizedActionException;
+import com.pifsite.application.exceptions.EntityInUseException;
 import com.pifsite.application.exceptions.ResourceNotFoundException;
 import com.pifsite.application.repository.SubjectRepository;
 import com.pifsite.application.repository.CourseRepository;
@@ -84,6 +86,17 @@ public class CourseService {
 
         this.courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("User with ID " + courseId + " not found"));
 
-        this.courseRepository.deleteById(courseId);
+        try{
+            this.courseRepository.deleteById(courseId);
+
+        }catch(DataIntegrityViolationException err){
+
+            throw new EntityInUseException("This course has students, so it can't be deleted yet");
+
+        }catch(Exception err){
+
+            System.out.println("This error was not treated yet: " + err.getClass());
+        }
+
     }
 }

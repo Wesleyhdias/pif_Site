@@ -29,42 +29,22 @@ public class PostController {
     @GetMapping
     public ResponseEntity<?> getAllPosts(){
 
-        try{
+        List<PostDTO> posts = postService.getAllPosts();
+        return ResponseEntity.ok(posts);
 
-            List<PostDTO> posts = postService.getAllPosts();
-            return ResponseEntity.ok(posts);
-
-        }catch(Exception err){
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("deu ruim..");
-        }
     }
 
     @PostMapping
     public ResponseEntity<?> createPost(@RequestBody CreatePostDTO postDTO){
 
-        try{
-
-            postService.createPost(postDTO);
-            return ResponseEntity.ok("Post criado");
-         
-        }catch(Exception err){
-         
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Post creation failed, you (Probably) don't have access to post creation feature");
-        }
+        postService.createPost(postDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Post criado");
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable UUID id) {
         
-        try{
-
-            postService.deleteOnePost(id);
-            return ResponseEntity.ok("Post successfully deleted.");
-
-        }catch(Exception err) {
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Post not deleted");
-        }
+        postService.deleteOnePost(id);
+        return ResponseEntity.ok("Post successfully deleted.");
     }
 }

@@ -63,7 +63,12 @@ public class PostService {
 
             throw new UnauthorizedActionException("you can't delete a post that is not yours"); // melhorar depois
         }
+        try{
+            this.postRepository.deleteById(postId);
 
-        this.postRepository.deleteById(postId);
+        }catch(Exception err){
+            
+            System.out.println(err.getClass());
+        }
     }
 }

@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 
 import com.pifsite.application.service.LoginService;
 import com.pifsite.application.dto.LoginDTO;
@@ -22,15 +21,8 @@ public class LoginController {
     @PostMapping
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO){
 
-        try{
-            
-            String token = loginService.doLogin(loginDTO);
-            return ResponseEntity.ok(token);
-
-        }catch(Exception err){
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Login failed");
-        }
+        String token = loginService.doLogin(loginDTO);
+        return ResponseEntity.ok(token);
 
     }
 }
